@@ -10,6 +10,7 @@
       <th>Title</th>
       <th>Context</th>
       <th>Restricted</th>
+      <th>Collabs</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -20,10 +21,13 @@
         <td><%= post.user.username %></td>
         <td><%= post.title %></td>
         <td><%= post.context %></td>
-        <td><%= post.restricted %></td>
+        <td><%= post.restricted.to_s %></td>
+        <td><%= post.collaborations.map(&:user).map(&:username).join(', ') %></td>
         <td><%= link_to 'Show', post %></td>
-        <td><%= link_to 'Edit', edit_post_path(post) %></td>
-        <% if cannot?(:destroy, post) %>
+        <% if can?(:edit, post) %>
+          <td><%= link_to 'Edit', edit_post_path(post) %></td>
+        <% end %>
+        <% if can?(:destroy, post) %>
           <td>
             <%= link_to 'Destroy', post, method: :delete, 
               data: { confirm: 'Are you sure?' } %>

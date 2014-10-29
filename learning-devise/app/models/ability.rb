@@ -7,7 +7,8 @@ class Ability
       # he cannot destroy posts
       # cannot :destroy, Post
       # he can destroy posts with his user id
-      can :destroy, Post, user_id: user.id
+      can [:destroy, :edit, :update], Post, user_id: user.id
+
     end
     # Define abilities for the passed in user here. For example:
     #

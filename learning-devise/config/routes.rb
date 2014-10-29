@@ -1,13 +1,17 @@
 Rails.application.routes.draw do
   resources :posts
 
-  get 'registrations/destroy'
+  # get 'registrations/destroy'
 
   # get 'home/index'
   root 'home#index'
 
   # DEVISE resource with controller override
   devise_for :users, controllers: { registrations: "registrations"}
+  devise_scope :user do
+    get 'users', to: 'registrations#index'
+    get 'user/:id', to: 'registrations#show', as: 'user'
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

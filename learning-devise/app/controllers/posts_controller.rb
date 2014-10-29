@@ -18,6 +18,7 @@ class PostsController < ApplicationController
   end
 
   def edit
+    authorize! :edit, @post
   end
 
   def create
@@ -27,6 +28,7 @@ class PostsController < ApplicationController
   end
 
   def update
+    authorize! :update, @post
     @post.update(post_params)
     respond_with(@post)
   end
