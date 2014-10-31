@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.0.0'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -44,3 +45,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin]
 gem 'devise'
 # CanCan gem  authorization
 gem 'cancan'
+
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0.0'
+  gem 'rspec-its'
+  gem 'rspec-expectations', '~> 3.0.0'
+end

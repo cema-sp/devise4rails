@@ -1,13 +1,43 @@
 class Ability
   include CanCan::Ability
 
+  
+
   def initialize(user)
+
+    can :index, Post
+
+    indexable_condition = <<-EOC
+    restricted = ? OR post.user_id = ? OR
+      (restricted = ? AND EXISTS 
+        (SELECT * FROM collaborations WHERE 
+          collaborations.post_id = posts.id AND 
+          collaborations.user_id = ?))
+    EOC
+
+    editable_condition = <<-EOC
+    post.user_id = ? OR
+      (restricted = ? AND EXISTS 
+        (SELECT * FROM collaborations WHERE 
+          collaborations.post_id = posts.id AND 
+          collaborations.user_id = ?))
+    EOC
+
     # if user is logged in
     if user && user.persisted?
       # he cannot destroy posts
       # cannot :destroy, Post
       # he can destroy posts with his user id
-      can [:destroy, :edit, :update], Post, user_id: user.id
+      can :destroy, Post, user_id: user.id
+
+      can :show, Post, [indexable_condition, false, user.id, true, user.id] do |post|
+        !post.restricted? || post.user_id == user.id ||
+          (post.restricted? && post.collaborations.where(user_id: user.id).present?)
+      end
+      can [:edit, :update], Post, [editable_condition, false, user.id, true, user.id] do |post|
+        post.user_id == user.id ||
+          (post.restricted? && post.collaborations.where(user_id: user.id).present?)
+      end
 
     end
     # Define abilities for the passed in user here. For example:

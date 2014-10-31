@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
-
+  # authorize_resource
   respond_to :html
 
   def index
@@ -9,6 +9,8 @@ class PostsController < ApplicationController
   end
 
   def show
+    authorize! :show, @post
+
     respond_with(@post)
   end
 
@@ -23,6 +25,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
+    @post = current_user.posts.build(post_params)
     @post.save
     respond_with(@post)
   end
@@ -45,6 +48,6 @@ class PostsController < ApplicationController
     end
 
     def post_params
-      params.require(:post).permit(:user_id, :title, :context, :restricted)
+      params.require(:post).permit(:title, :context, :restricted)
     end
 end

@@ -23,7 +23,9 @@
         <td><%= post.context %></td>
         <td><%= post.restricted.to_s %></td>
         <td><%= post.collaborations.map(&:user).map(&:username).join(', ') %></td>
-        <td><%= link_to 'Show', post %></td>
+        <% if can?(:show, post) %>
+          <td><%= link_to 'Show', post %></td>
+        <% end %>
         <% if can?(:edit, post) %>
           <td><%= link_to 'Edit', edit_post_path(post) %></td>
         <% end %>
