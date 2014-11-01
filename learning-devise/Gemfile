@@ -45,6 +45,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin]
 gem 'devise'
 # CanCan gem  authorization
 gem 'cancan'
+# OmniAuth gem for remote authentication
+gem 'omniauth'
+gem 'omniauth-github'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'

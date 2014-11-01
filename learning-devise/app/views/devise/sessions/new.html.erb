@@ -33,10 +33,13 @@
       <div>
       <%= f.submit "Log in", 
         class: "btn btn-large btn-primary"  %>
+      <%# button_tag 'GitHub', user_omniauth_authorize_path(:github) %>
+      <%# link_to 'Log in with GitHub', user_omniauth_authorize_path(:github), 
+        class: "btn btn-large" %>
       </div>
-
     <% end %>
-    
+    <%= button_to 'Log in with GitHub', user_omniauth_authorize_path(:github), method: :get,
+      class: "btn btn-large" %>
     <%= render "devise/shared/links" %>
 
   </div>

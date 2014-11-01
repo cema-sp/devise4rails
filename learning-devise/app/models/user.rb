@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, 
-         :confirmable
+         :confirmable, :omniauthable
 
   attr_accessor :login
 
@@ -20,6 +20,15 @@ class User < ActiveRecord::Base
         { value: login.downcase }]).first
     else
       where(conditions).first
+    end
+  end
+
+  def self.process_omniauth(auth)
+    where(auth.slice(:provider, :uid)).first_or_create do |user|
+      user.provider = auth.provider
+      user.uid = auth.uid
+      user.username = auth.info.nickname
+      user.email = auth.info.email
     end
   end
 end

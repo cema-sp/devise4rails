@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   root 'home#index'
 
   # DEVISE resource with controller override
-  devise_for :users, controllers: { registrations: "registrations"}
+  devise_for :users, controllers: { registrations: "registrations", 
+    omniauth_callbacks: "omniauth_callbacks"}
   devise_scope :user do
     get 'users', to: 'registrations#index'
     get 'user/:id', to: 'registrations#show', as: 'user'
