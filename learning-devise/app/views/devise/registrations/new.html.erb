@@ -20,19 +20,23 @@
         <%= f.text_field :address, class: 'form-control' %>
       </div>
     
-      <div class='form-group'>
-        <%= f.label :password, class: 'control-label' %>
-        <% if @validatable %>
-          <i>(<%= @minimum_password_length %> characters minimum)</i>
-        <% end %>
-        <br />
-        <%= f.password_field :password, autocomplete: "off", class: 'form-control' %>
-      </div>
-    
-      <div class='form-group'>
-        <%= f.label :password_confirmation, class: 'control-label' %><br />
-        <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control' %>
-      </div>
+      <% if f.object.password_required?
+       %>
+        <div class='form-group'>
+          <%= f.label :password, class: 'control-label' %>
+          <% if @validatable %>
+            <i>(<%= @minimum_password_length %> characters minimum)</i>
+          <% end %>
+          <br />
+          <%= f.password_field :password, autocomplete: "off", class: 'form-control' %>
+        </div>
+      
+        <div class='form-group'>
+          <%= f.label :password_confirmation, class: 'control-label' %><br />
+          <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control' %>
+        </div>
+      <% end %>
+        
     
       <div><%= f.submit "Sign up", class: "btn btn-large btn-primary" %></div>
     <% end %>

@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_filter :cancan_workaround
 
   rescue_from CanCan::AccessDenied do |exception|
     if current_user.nil?
@@ -34,5 +35,11 @@ class ApplicationController < ActionController::Base
       #   u.permit(:username, :email, :password, :password_confirmation, :remember_me)
       # end
       devise_parameter_sanitizer.for(:account_update) << [:username, :email, :address]
+    end
+
+    def cancan_workaround
+      resource = controller_name.singularize.to_sym
+      method = "#{resource}_params"
+      params[resource] &&= send(method) if respond_to?(method, true)
     end
 end

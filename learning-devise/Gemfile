@@ -53,4 +53,6 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
   gem 'rspec-its'
   gem 'rspec-expectations', '~> 3.0.0'
+
+  gem 'factory_girl_rails', '4.2.1'
 end
